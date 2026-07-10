@@ -144,7 +144,7 @@ def main():
     if extra_args_json:
         extra_args = json.loads(extra_args_json)
 
-    versioning = os.environ.get('VERSIONING')
+    versioning = os.environ.get('VERSIONING', 'false').lower() == 'true'
 
     upload_dir = get_upload_dir()
     if not upload_dir:
