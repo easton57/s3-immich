@@ -1,0 +1,3 @@
+boto3==1.43.44
+botocore==1.43.44
+python-dotenv==1.2.2
