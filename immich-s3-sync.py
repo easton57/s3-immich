@@ -1,6 +1,7 @@
 import json
 import logging
 import sys
+from datetime import datetime
 
 import boto3
 from botocore.exceptions import ClientError
@@ -8,11 +9,27 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+
+LOG_FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
+LOG_DATEFMT = '%Y-%m-%d %H:%M:%S'
+
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
+    format=LOG_FORMAT,
+    datefmt=LOG_DATEFMT,
 )
+
+log_file = os.environ.get('LOG_FILE')
+if log_file:
+    base, ext = os.path.splitext(log_file)
+    today = datetime.now().strftime('%Y-%m-%d')
+    log_file = f"{base}-{today}{ext}"
+    log_dir = os.path.dirname(log_file)
+    if log_dir:
+        os.makedirs(log_dir, exist_ok=True)
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setFormatter(logging.Formatter(LOG_FORMAT, datefmt=LOG_DATEFMT))
+    logging.getLogger().addHandler(file_handler)
 
 S3_BUCKET = os.environ.get('S3_BUCKET')
 S3_ENDPOINT_URL = os.environ.get('S3_ENDPOINT_URL') or None
