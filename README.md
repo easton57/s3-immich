@@ -33,6 +33,8 @@ Optional environment variables:
 - `EXTRA_ARGS` -- JSON string of extra arguments passed to the S3 upload. For example: `{"StorageClass": "DEEP_ARCHIVE"}`
 - `VERSIONING` -- set to any value to skip the duplicate check and upload everything (useful if bucket versioning is enabled)
 
+I use it as a cron job, must be run as immich user or files won't be able to be read media.
+
 ## How it works
 
 1. Validates that all required environment variables are set.
